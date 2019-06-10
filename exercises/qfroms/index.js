@@ -12,8 +12,45 @@
 //     q.remove(); // returns 1
 //     q.remove(); // returns 2
 
-const Stack = require('./stack');
+const Stack = require("./stack");
 
-class Queue {}
+class Queue {
+  constructor() {
+    this.first = new Stack();
+    this.second = new Stack();
+  }
+
+  add() {
+    this.first.push(record);
+  }
+
+  //as long as there's a record to remove, we'll pop it and push it to second stack
+  remove() {
+    while (this.first.peek()) {
+      this.second.push(this.first.pop());
+    }
+    // the top of the stack (the last of the stack from first stack)
+    const record = this.second.pop();
+
+    //repeat from second back to first
+    while (this.second.peek()) {
+      this.first.push(this.second.pop());
+    }
+
+    return record;
+  }
+
+  queuePeek() {
+    while (this.first.peek()) {
+      this.second.push(this.first.pop());
+    }
+    const record = this.second.peek();
+
+    while (this.second.peek()) {
+      this.first.push(this.second.pop());
+    }
+    return record;
+  }
+}
 
 module.exports = Queue;
